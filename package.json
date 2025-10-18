@@ -1,0 +1,27 @@
+{
+  "name": "judo-academy",
+  "version": "1.0.0",
+  "description": "Traditional Judo Academy with modern technology",
+  "main": "main.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "init-admin": "node init-admin.js"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.38.0"
+  },
+  "devDependencies": {
+    "vite": "^4.4.5"
+  },
+  "keywords": [
+    "judo",
+    "academy",
+    "martial-arts",
+    "supabase",
+    "vercel"
+  ],
+  "author": "Judo Academy Team",
+  "license": "MIT"
+}

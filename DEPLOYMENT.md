@@ -269,6 +269,44 @@ VITE_SENTRY_DSN=https://xxxxx@sentry.io/xxxxx
 - **Production**: Set environment variables in Vercel dashboard
 - **Staging**: Create separate branch and Vercel project
 
+## Admin User Setup
+
+### Creating Your First Administrator
+
+Since registration and password reset might not work initially, use one of these methods to create your first admin:
+
+#### Method 1: URL Parameter (Recommended)
+1. Open your website
+2. Add `?init=admin` to the URL
+3. Example: `https://your-website.vercel.app/?init=admin`
+4. This creates and logs you in as admin automatically
+
+**Default Admin Credentials:**
+- Email: `admin@academiajudo.com`
+- Password: `AdminJudo2024!`
+
+#### Method 2: Direct Database Insert
+Run this SQL in your Supabase SQL Editor:
+
+```sql
+-- Create admin user
+INSERT INTO auth.users (email, encrypted_password, email_confirmed_at) 
+VALUES ('admin@academiajudo.com', crypt('AdminJudo2024!', gen_salt('bf')), NOW());
+
+-- Create admin profile
+INSERT INTO public.profiles (id, email, full_name, role, belt_level, is_active) 
+VALUES (
+    (SELECT id FROM auth.users WHERE email = 'admin@academiajudo.com'),
+    'admin@academiajudo.com',
+    'Administrador Principal',
+    'admin',
+    'black',
+    true
+);
+```
+
+For detailed troubleshooting, see `ADMIN_SETUP.md`.
+
 ## Production Checklist
 
 ### Security
