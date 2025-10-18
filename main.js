@@ -13,12 +13,6 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeAnimations();
     setupScrollReveal();
     initializeParticles();
-    
-    // Check if we need to initialize admin (only for development/demo)
-    const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get('init') === 'admin') {
-        initializeFirstAdmin();
-    }
 });
 
 // Initialize application
@@ -630,62 +624,5 @@ window.addEventListener('unhandledrejection', function(e) {
     console.error('Unhandled promise rejection:', e.reason);
     showNotification('Error de conexión. Intenta de nuevo.', 'error');
 });
-
-// Initialize first admin user (for development/demo purposes)
-async function initializeFirstAdmin() {
-    try {
-        console.log('🔧 Initializing first admin user...');
-        
-        // Create admin user with hardcoded credentials (change in production!)
-        const adminEmail = 'admin@academiajudo.com';
-        const adminPassword = 'AdminJudo2024!';
-        const adminName = 'Administrador Principal';
-        
-        // Check if admin already exists in our mock data
-        const existingAdmin = localStorage.getItem('judo_admin');
-        if (existingAdmin) {
-            console.log('✅ Admin user already exists');
-            return;
-        }
-        
-        // Create admin user
-        const adminUser = {
-            id: 'admin_' + Date.now(),
-            email: adminEmail,
-            user_metadata: {
-                full_name: adminName,
-                role: 'admin',
-                is_active: true
-            }
-        };
-        
-        // Store admin user
-        localStorage.setItem('judo_user', JSON.stringify(adminUser));
-        localStorage.setItem('judo_admin', JSON.stringify(adminUser));
-        
-        console.log('🎉 Admin user created successfully!');
-        console.log('📋 Admin Credentials:');
-        console.log('   Email:', adminEmail);
-        console.log('   Password:', adminPassword);
-        console.log('   ⚠️  IMPORTANT: Change this password in production!');
-        
-        // Show success notification
-        showNotification('Admin user created! Email: ' + adminEmail + ' Password: ' + adminPassword, 'success');
-        
-        // Auto-login as admin
-        currentUser = adminUser;
-        isAuthenticated = true;
-        updateUIForAuthenticatedUser();
-        
-        // Redirect to admin dashboard after 3 seconds
-        setTimeout(() => {
-            window.location.href = 'admin.html';
-        }, 3000);
-        
-    } catch (error) {
-        console.error('❌ Admin initialization error:', error);
-        showNotification('Error creating admin user', 'error');
-    }
-}
 
 console.log('Judo Academy main.js loaded successfully');
